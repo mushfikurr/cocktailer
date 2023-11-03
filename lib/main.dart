@@ -10,7 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,27 +17,14 @@ class MyApp extends StatelessWidget {
           primarySwatch: cocktail,
           scaffoldBackgroundColor: cocktail.shade500,
           textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme)),
-      home: const MyHomePage(title: 'cocktailer.'),
+      home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,
           elevation: 0.5,
-          title: Text(widget.title),
+          title: const Text("cocktailer."),
           titleTextStyle: Theme.of(context)
               .textTheme
               .headlineSmall
@@ -85,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           style: Theme.of(context)
                               .textTheme
                               .titleLarge
-                              ?.copyWith(letterSpacing: 5)),
+                              ?.copyWith(letterSpacing: 8)),
                       const SizedBox(height: 8),
                       Text(
                         'Create A Cocktail',
