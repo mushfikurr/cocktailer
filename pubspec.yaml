@@ -62,6 +62,7 @@ flutter:
   assets:
     - assets/waves.svg
     - assets/waves.png
+    - assets/bubbles.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
