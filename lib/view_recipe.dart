@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/colors.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models.dart';
 
 class ViewRecipe extends StatelessWidget {
@@ -24,12 +25,41 @@ class ViewRecipe extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                "Mojito",
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).textTheme.titleMedium?.color),
+              FutureBuilder(
+                future: futureDrink,
+                builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
+                  if (snapshot.hasData) {
+                    return Flexible(
+                      child: Text(
+                        snapshot.data!.strDrink,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.color),
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      "Loading...",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge
+                          ?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.color),
+                    );
+                  }
+                },
               ),
             ],
           ),
@@ -38,9 +68,17 @@ class ViewRecipe extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                "Served in highball glass.",
-                style: Theme.of(context).textTheme.titleMedium,
+              FutureBuilder(
+                future: futureDrink,
+                builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                        "Served in ${snapshot.data!.strGlass ?? "glass"}.",
+                        style: Theme.of(context).textTheme.titleMedium);
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
               ),
             ],
           ),
@@ -64,6 +102,15 @@ class ViewRecipe extends StatelessWidget {
           ),
         ]),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyHomePage()),
+          );
+        },
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }
@@ -82,10 +129,10 @@ class FutureIngredientCards extends StatelessWidget {
       future: futureDrink,
       builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
         if (snapshot.hasData) {
-          List<(String, String)> ingredients =
-              getIngredientsAsList(snapshot.data!);
+          List<(String, String)>? ingredients =
+              getIngredientsAsList(snapshot.data);
 
-          List<IngredientCard> cards = ingredients
+          List<IngredientCard>? cards = ingredients
               .map((e) =>
                   IngredientCard(ingredientName: e.$1, ingredientMeasure: e.$2))
               .toList();
@@ -172,69 +219,72 @@ class RecipeCard extends StatelessWidget {
 class IngredientCard extends StatelessWidget {
   const IngredientCard({
     super.key,
-    required this.ingredientName,
-    required this.ingredientMeasure,
+    this.ingredientName,
+    this.ingredientMeasure,
   });
 
-  final String ingredientName;
-  final String ingredientMeasure;
+  final String? ingredientName;
+  final String? ingredientMeasure;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: ResizeImage(
-            AssetImage('assets/sample_image.jpg'),
-            width: 466, // Specify the intended width
-            height: 466, // Specify the intended height
+    if (ingredientName != null && ingredientMeasure != null) {
+      return Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: ResizeImage(
+              AssetImage('assets/sample_image.jpg'),
+              width: 466, // Specify the intended width
+              height: 466, // Specify the intended height
+            ),
+            fit: BoxFit.cover,
           ),
-          fit: BoxFit.cover,
+          borderRadius: BorderRadius.all(Radius.circular(14.0)),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(14.0)),
-      ),
-      child: Column(
-        children: [
-          const Spacer(),
-          Container(
-            decoration: BoxDecoration(
-              color: cocktail.shade500,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(14.0),
-                bottomRight: Radius.circular(14.0),
+        child: Column(
+          children: [
+            const Spacer(),
+            Container(
+              decoration: BoxDecoration(
+                color: cocktail.shade500,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(14.0),
+                  bottomRight: Radius.circular(14.0),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 10,
+                  bottom: 10,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(ingredientName!,
+                              style: Theme.of(context).textTheme.bodyLarge),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(ingredientMeasure!,
+                              style: Theme.of(context).textTheme.bodyLarge),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 10,
-                bottom: 10,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(ingredientName,
-                            style: Theme.of(context).textTheme.bodyLarge),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(ingredientMeasure,
-                            style: Theme.of(context).textTheme.bodyLarge),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
+    return const SizedBox.shrink();
   }
 }
