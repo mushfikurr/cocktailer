@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/colors.dart';
+import 'package:flutter_application_1/models.dart';
 
-class Recipe extends StatelessWidget {
-  const Recipe({super.key});
+class ViewRecipe extends StatelessWidget {
+  const ViewRecipe({super.key, required this.futureDrink});
+
+  final Future<Drink> futureDrink;
 
   @override
   Widget build(BuildContext context) {
