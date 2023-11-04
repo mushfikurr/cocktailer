@@ -207,21 +207,16 @@ class RecipeCard extends StatelessWidget {
                 future: futureDrink,
                 builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
                   if (snapshot.hasData) {
-                    List<Row>? instructions =
-                        splitInstructionsIntoList(snapshot.data!)
-                            ?.map(
-                              (e) => Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(e),
-                                  ),
-                                ],
-                              ),
-                            )
-                            .toList();
-                    return Column(
-                      children: instructions!,
-                    );
+                    return Column(children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(snapshot.data!.strInstructions ??
+                                "No recipe for this cocktail was found."),
+                          ),
+                        ],
+                      ),
+                    ]);
                   } else {
                     return const Center(child: CircularProgressIndicator());
                   }

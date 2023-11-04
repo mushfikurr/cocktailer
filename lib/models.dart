@@ -240,6 +240,8 @@ List<(String, String)> getIngredientsAsList(Drink? drink) {
   return ingredients;
 }
 
+// Unused helper function, there are no standards in the API to allow for
+// consistent formatting.
 List<String>? splitInstructionsIntoList(Drink? drink) {
   if (drink == null) {
     return [];
@@ -247,5 +249,7 @@ List<String>? splitInstructionsIntoList(Drink? drink) {
   List<String>? splitInstructions =
       drink.strInstructions?.split(".").map((e) => "${e.trim()}.").toList();
 
+  splitInstructions
+      ?.removeWhere((element) => element == "."); // Remove empty strings.
   return splitInstructions;
 }
