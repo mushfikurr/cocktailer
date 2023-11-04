@@ -83,7 +83,12 @@ class ViewRecipe extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 18),
-          const Expanded(flex: 1, child: RecipeCard()),
+          SingleChildScrollView(
+            child: Expanded(
+              flex: 1,
+              child: RecipeCard(futureDrink: futureDrink),
+            ),
+          ),
           const SizedBox(height: 24),
           Row(
             children: [
@@ -160,7 +165,10 @@ class FutureIngredientCards extends StatelessWidget {
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
     super.key,
+    required this.futureDrink,
   });
+
+  final Future<Drink> futureDrink;
 
   @override
   Widget build(BuildContext context) {
@@ -193,20 +201,31 @@ class RecipeCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Padding(
-              padding: EdgeInsets.only(left: 33),
-              child: Column(
-                children: [
-                  Row(
-                    children: [Text("Hello")],
-                  ),
-                  Row(
-                    children: [Text("Hello")],
-                  ),
-                  Row(
-                    children: [Text("Hello")],
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.only(left: 33),
+              child: FutureBuilder(
+                future: futureDrink,
+                builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Row>? instructions =
+                        splitInstructionsIntoList(snapshot.data!)
+                            ?.map(
+                              (e) => Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(e),
+                                  ),
+                                ],
+                              ),
+                            )
+                            .toList();
+                    return Column(
+                      children: instructions!,
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
               ),
             )
           ],
