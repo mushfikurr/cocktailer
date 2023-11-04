@@ -220,16 +220,20 @@ class Drink {
   }
 }
 
-List<(String, String)> getIngredientsAsList(Drink drink) {
+List<(String, String)> getIngredientsAsList(Drink? drink) {
+  if (drink == null) {
+    return [];
+  }
   List<(String, String)> ingredients = [];
   for (int ingredientNumber = 1; ingredientNumber < 16; ingredientNumber++) {
     String ingredientProperty = "strIngredient$ingredientNumber";
     if (drink.toJson()[ingredientProperty] != null) {
       String measureProperty = "strMeasure$ingredientNumber";
       ingredients.add((
-        drink.toJson()[ingredientProperty],
-        drink.toJson()[measureProperty]
+        drink.toJson()[ingredientProperty] ?? "",
+        drink.toJson()[measureProperty] ?? ""
       ));
+      print(ingredientProperty + measureProperty);
     }
   }
 
