@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/colors.dart';
-import 'package:flutter_application_1/individual_cocktail.dart';
+import 'package:flutter_application_1/view_individual_cocktail.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
