@@ -233,7 +233,6 @@ List<(String, String)> getIngredientsAsList(Drink? drink) {
         drink.toJson()[ingredientProperty] ?? "",
         drink.toJson()[measureProperty] ?? ""
       ));
-      print(ingredientProperty + measureProperty);
     }
   }
 
