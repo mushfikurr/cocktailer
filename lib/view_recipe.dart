@@ -59,31 +59,53 @@ class ViewRecipe extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Column(
-              children: [
-                Expanded(
-                  child: GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.all(2.0),
-                    mainAxisSpacing: 20.0,
-                    crossAxisSpacing: 20.0,
-                    crossAxisCount: 2,
-                    children: const <Widget>[
-                      IngredientCard(),
-                      IngredientCard(),
-                      IngredientCard(),
-                      IngredientCard(),
-                      IngredientCard(),
-                      IngredientCard(),
-                      IngredientCard(),
-                      IngredientCard(),
-                    ],
-                  ),
-                )
-              ],
+              children: [FutureIngredientCards(futureDrink: futureDrink)],
             ),
           ),
         ]),
       ),
+    );
+  }
+}
+
+class FutureIngredientCards extends StatelessWidget {
+  const FutureIngredientCards({
+    super.key,
+    required this.futureDrink,
+  });
+
+  final Future<Drink> futureDrink;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: futureDrink,
+      builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
+        if (snapshot.hasData) {
+          List<(String, String)> ingredients =
+              getIngredientsAsList(snapshot.data!);
+
+          List<IngredientCard> cards = ingredients
+              .map((e) =>
+                  IngredientCard(ingredientName: e.$1, ingredientMeasure: e.$2))
+              .toList();
+
+          return Expanded(
+            child: GridView.count(
+              primary: false,
+              padding: const EdgeInsets.all(2.0),
+              mainAxisSpacing: 20.0,
+              crossAxisSpacing: 20.0,
+              crossAxisCount: 2,
+              children: cards,
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return const Text("Error fetching ingredients");
+        } else {
+          return const Expanded(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }
@@ -150,7 +172,12 @@ class RecipeCard extends StatelessWidget {
 class IngredientCard extends StatelessWidget {
   const IngredientCard({
     super.key,
+    required this.ingredientName,
+    required this.ingredientMeasure,
   });
+
+  final String ingredientName;
+  final String ingredientMeasure;
 
   @override
   Widget build(BuildContext context) {
@@ -188,13 +215,18 @@ class IngredientCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text("Squeeze of Lemon",
-                          style: Theme.of(context).textTheme.bodyLarge),
+                      Flexible(
+                        child: Text(ingredientName,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                      ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("One"),
+                      Flexible(
+                        child: Text(ingredientMeasure,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                      ),
                     ],
                   ),
                 ],
