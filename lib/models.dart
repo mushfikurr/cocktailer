@@ -239,3 +239,13 @@ List<(String, String)> getIngredientsAsList(Drink? drink) {
 
   return ingredients;
 }
+
+List<String>? splitInstructionsIntoList(Drink? drink) {
+  if (drink == null) {
+    return [];
+  }
+  List<String>? splitInstructions =
+      drink.strInstructions?.split(".").map((e) => "${e.trim()}.").toList();
+
+  return splitInstructions;
+}
