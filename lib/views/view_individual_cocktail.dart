@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_actions.dart';
 import 'package:flutter_application_1/colors.dart';
 import 'package:flutter_application_1/models.dart';
-import 'package:flutter_application_1/view_recipe.dart';
+import 'package:flutter_application_1/views/view_recipe.dart';
 
 class IndividualCocktail extends StatefulWidget {
   const IndividualCocktail({super.key});
