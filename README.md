@@ -22,6 +22,3 @@ View randomly generated cocktail (view_cocktail) **(note the cocktail picture do
 
 View more information for generated cocktail (view_recipe):
 ![Image of recipe screen](./screenshots/flutter_03.png)
-
-
-Designed & developed by Mushfikur Rahman.
