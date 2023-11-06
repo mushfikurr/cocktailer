@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/colors.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models.dart';
@@ -21,8 +22,10 @@ class ViewRecipe extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const MyHomePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage()));
                 },
                 icon: const Icon(Icons.home))
           ],
@@ -85,7 +88,7 @@ class ViewRecipe extends StatelessWidget {
                         "Served in ${snapshot.data!.strGlass ?? "glass"}.",
                         style: Theme.of(context).textTheme.titleMedium);
                   } else {
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }
                 },
               ),
@@ -93,9 +96,15 @@ class ViewRecipe extends StatelessWidget {
           ),
           const SizedBox(height: 18),
           SingleChildScrollView(
-            child: Expanded(
-              flex: 1,
-              child: RecipeCard(futureDrink: futureDrink),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.loose,
+                  child: RecipeCard(futureDrink: futureDrink),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 24),
@@ -158,7 +167,15 @@ class FutureIngredientCards extends StatelessWidget {
               mainAxisSpacing: 20.0,
               crossAxisSpacing: 20.0,
               crossAxisCount: 2,
-              children: cards,
+              children: AnimateList(
+                  delay: 200.ms,
+                  interval: 200.ms,
+                  effects: [
+                    FadeEffect(duration: 300.ms),
+                    ScaleEffect(
+                        duration: 150.ms, curve: Curves.fastEaseInToSlowEaseOut)
+                  ],
+                  children: cards),
             ),
           );
         } else if (snapshot.hasError) {
@@ -189,52 +206,55 @@ class RecipeCard extends StatelessWidget {
         color: cocktail.shade500,
         borderRadius: const BorderRadius.all(Radius.circular(18.0)),
       ),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 16, bottom: 16, left: 11, right: 16),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Icon(Icons.book)),
-                Text(
-                  "Recipe",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                )
-              ],
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(left: 33),
-              child: FutureBuilder(
-                future: futureDrink,
-                builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(children: [
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(snapshot.data!.strInstructions ??
-                                "No recipe for this cocktail was found."),
-                          ),
-                        ],
-                      ),
-                    ]);
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
+      child: Wrap(children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 16, bottom: 16, left: 11, right: 16),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Padding(
+                      padding: EdgeInsets.only(right: 8),
+                      child: Icon(Icons.book)),
+                  Text(
+                    "Recipe",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  )
+                ],
               ),
-            )
-          ],
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.only(left: 33),
+                child: FutureBuilder(
+                  future: futureDrink,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Drink> snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(snapshot.data!.strInstructions ??
+                                  "No recipe for this cocktail was found."),
+                            ),
+                          ],
+                        ),
+                      ]);
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+      ]),
     );
   }
 }

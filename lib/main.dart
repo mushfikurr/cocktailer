@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/colors.dart';
 import 'package:flutter_application_1/views/view_individual_cocktail.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: non_constant_identifier_names
+
 void main() {
   runApp(const MyApp());
+  Animate.restartOnHotReload = true;
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +24,61 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
+  }
+}
+
+class AnimatedTapHere extends StatefulWidget {
+  @override
+  _AnimatedTapHereState createState() => _AnimatedTapHereState();
+}
+
+class _AnimatedTapHereState extends State<AnimatedTapHere>
+    with TickerProviderStateMixin {
+  double _letterSpacing = 4;
+  late AnimationController controller;
+  static const int initialDurationMs = 500;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Create an animation controller
+    controller = AnimationController(
+      duration: const Duration(milliseconds: initialDurationMs),
+      vsync: this,
+    );
+
+    // Define a Tween for animating the letterSpacing
+    final letterSpacingTween = Tween<double>(
+      begin: 4,
+      end: 8,
+    );
+
+    controller.forward();
+    controller.addListener(() {
+      setState(() {
+        _letterSpacing = letterSpacingTween.evaluate(controller);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedDefaultTextStyle(
+      curve: Curves.fastEaseInToSlowEaseOut,
+      style: Theme.of(context)
+          .textTheme
+          .titleLarge!
+          .copyWith(letterSpacing: _letterSpacing),
+      duration: const Duration(milliseconds: initialDurationMs),
+      child: const Text('TAP HERE'),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
 
@@ -67,11 +126,10 @@ class MyHomePage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('TAP HERE',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(letterSpacing: 8)),
+                      AnimatedTapHere().animate().fadeIn(
+                          delay: const Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.easeInOut),
                       const SizedBox(height: 8),
                       Text(
                         'Create A Cocktail',
@@ -84,11 +142,19 @@ class MyHomePage extends StatelessWidget {
                                     .textTheme
                                     .titleMedium
                                     ?.color),
-                      ),
+                      )
+                          .animate()
+                          .fadeIn(
+                              duration: const Duration(milliseconds: 600),
+                              curve: Curves.elasticInOut)
+                          .slideY(
+                              begin: -0.8,
+                              duration: const Duration(milliseconds: 800),
+                              curve: Curves.easeInOutCubicEmphasized)
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           )),
     );

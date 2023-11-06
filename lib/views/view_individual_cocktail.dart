@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_actions.dart';
 import 'package:flutter_application_1/colors.dart';
 import 'package:flutter_application_1/main.dart';
@@ -120,7 +121,7 @@ class FutureDrinkTagsScrollable extends StatelessWidget {
             drink.strCategory,
             drink.strIBA,
           ]
-              .whereType<String>()
+              .whereType<String>() // Check if tags exist
               .map((displayText) => CustomChip(displayText: displayText))
               .toList();
 
@@ -128,7 +129,11 @@ class FutureDrinkTagsScrollable extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Wrap(
               spacing: 10,
-              children: chips,
+              children: AnimateList(
+                  delay: 400.ms,
+                  interval: 200.ms,
+                  effects: [FadeEffect(duration: 300.ms)],
+                  children: chips),
             ),
           );
         } else if (snapshot.hasError) {
@@ -188,7 +193,10 @@ class FutureDrinkImage extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(12.0)),
               ),
             ),
-          );
+          )
+              .animate()
+              .fadeIn(duration: 600.ms, curve: Curves.easeInOut)
+              .slideY(begin: 0.3, curve: Curves.fastEaseInToSlowEaseOut);
         } else if (snapshot.hasError) {
           return Expanded(
             flex: 2,
