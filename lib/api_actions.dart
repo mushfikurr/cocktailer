@@ -6,8 +6,13 @@ import 'package:http/http.dart' as http;
 const String endpointRandomDrink =
     "http://www.thecocktaildb.com/api/json/v1/1/random.php";
 
+String getURLForIngredientThumbnail(id) {
+  String escapedId = id.toString().replaceAll(" ", "%20");
+  return "http://www.thecocktaildb.com/images/ingredients/$escapedId.png";
+}
+
 String getEndpointForSpecificId(id) {
-  return "www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=$id";
+  return "http://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=$id";
 }
 
 Future<Drink> fetchRandomDrink() async {

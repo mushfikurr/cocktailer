@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/api_actions.dart';
 import 'package:flutter_application_1/colors.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models.dart';
@@ -273,16 +274,13 @@ class IngredientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (ingredientName != null && ingredientMeasure != null) {
       return Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: ResizeImage(
-              AssetImage('assets/sample_image.jpg'),
-              width: 466, // Specify the intended width
-              height: 466, // Specify the intended height
-            ),
+            image: Image.network(getURLForIngredientThumbnail(ingredientName))
+                .image,
             fit: BoxFit.cover,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(14.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(14.0)),
         ),
         child: Column(
           children: [
