@@ -230,7 +230,7 @@ class RecipeCard extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 1),
               Padding(
                 padding: const EdgeInsets.only(left: 33),
                 child: FutureBuilder(
