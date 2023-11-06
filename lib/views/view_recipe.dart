@@ -96,16 +96,18 @@ class ViewRecipe extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 18),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.loose,
-                  child: RecipeCard(futureDrink: futureDrink),
-                ),
-              ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.loose,
+                    child: RecipeCard(futureDrink: futureDrink),
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 24),
@@ -240,9 +242,15 @@ class RecipeCard extends StatelessWidget {
                         Row(
                           children: [
                             Flexible(
-                              child: Text(snapshot.data!.strInstructions ??
-                                  "No recipe for this cocktail was found."),
-                            ),
+                                child: Text(
+                                    """Amet occaecat sint exercitation est ullamco adipisicing dolor. Et et irure ea consectetur deserunt adipisicing sunt enim laboris labore reprehenderit Lorem ullamco. Irure tempor amet sint ea adipisicing do. Aute ex excepteur nostrud culpa. Et irure irure non enim culpa magna in ex.
+
+Cillum nostrud reprehenderit laborum ex sunt consectetur magna eu quis esse in. Irure fugiat voluptate dolore incididunt do elit magna voluptate adipisicing fugiat. Incididunt mollit proident culpa sunt ad cupidatat esse. Enim tempor et duis laboris occaecat est nisi.
+
+Laboris velit enim aliquip sint dolor id culpa. Ipsum est deserunt ex duis veniam fugiat deserunt. Ut et aute culpa sunt minim. Incididunt sit non amet aute in esse labore fugiat sit sint exercitation commodo. Occaecat cillum ad sit ea adipisicing. Eu ad in nostrud do aliquip proident mollit cupidatat do occaecat nulla laboris enim.""")
+                                // child: Text(snapshot.data!.strInstructions ??
+                                //     "No recipe for this cocktail was found."),
+                                ),
                           ],
                         ),
                       ]);
