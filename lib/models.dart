@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Drink {
   String idDrink;
   String strDrink;
@@ -219,6 +217,12 @@ class Drink {
     );
   }
 }
+
+// Transform the ingredient and measures fields into
+// an easier format to iterate through
+
+// strIngredient1, strIngredient2, strMeasure1, strMeasure2 -> 
+//    (strIngredient1, strMeasure1), (strIngredient2, strMeasure2)
 
 List<(String, String)> getIngredientsAsList(Drink? drink) {
   if (drink == null) {

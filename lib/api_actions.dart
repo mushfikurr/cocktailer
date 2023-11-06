@@ -25,7 +25,3 @@ Future<Drink> fetchRandomDrink() async {
     throw Exception('Failed to load drink');
   }
 }
-
-// Future<http.Response> fetchCocktailById(id) {
-//   return http.get(Uri.parse(getEndpointForSpecificId(id)));
-// }
