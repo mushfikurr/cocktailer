@@ -1,4 +1,4 @@
-# Cocktailer - Flutter Application for Shape.
+# Cocktailer - Flutter Application.
 
 A cross-platform application that allows you to generate random cocktails from [CocktailDB](https://www.thecocktaildb.com/).
 
