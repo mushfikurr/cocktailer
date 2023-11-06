@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/colors.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models.dart';
+import 'package:flutter_application_1/views/view_individual_cocktail.dart';
 
 class ViewRecipe extends StatelessWidget {
   const ViewRecipe({super.key, required this.futureDrink});
@@ -17,6 +18,14 @@ class ViewRecipe extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           elevation: 0.5,
           title: const Text("cocktailer."),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const MyHomePage()));
+                },
+                icon: const Icon(Icons.home))
+          ],
           titleTextStyle: Theme.of(context)
               .textTheme
               .headlineSmall
@@ -111,7 +120,7 @@ class ViewRecipe extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MyHomePage()),
+            MaterialPageRoute(builder: (context) => const IndividualCocktail()),
           );
         },
         child: const Icon(Icons.refresh),
@@ -178,11 +187,11 @@ class RecipeCard extends StatelessWidget {
           BoxShadow(color: Colors.black.withOpacity(0.1), spreadRadius: 1)
         ],
         color: cocktail.shade500,
-        borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(18.0)),
       ),
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
+            const EdgeInsets.only(top: 16, bottom: 16, left: 11, right: 16),
         child: Column(
           children: [
             Row(

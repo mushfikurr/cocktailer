@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_actions.dart';
 import 'package:flutter_application_1/colors.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models.dart';
 import 'package:flutter_application_1/views/view_recipe.dart';
 
@@ -29,6 +30,16 @@ class _IndividualCocktailState extends State<IndividualCocktail> {
           backgroundColor: Theme.of(context).colorScheme.primary,
           elevation: 0.5,
           title: const Text("cocktailer."),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                  );
+                },
+                icon: const Icon(Icons.home))
+          ],
           titleTextStyle: Theme.of(context)
               .textTheme
               .headlineSmall
