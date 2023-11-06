@@ -1,16 +1,27 @@
-# flutter_application_1
+# Cocktailer - Flutter Application for Shape.
 
-A new Flutter project.
+A cross-platform application that allows you to generate random cocktails from [CocktailDB](https://www.thecocktaildb.com/).
 
-## Getting Started
+### Source Code Directories
 
-This project is a starting point for a Flutter application.
+Mock-up designs can be found in `mock_images/`.
+All source code can be found within `lib/`.
 
-A few resources to get you started if this is your first Flutter project:
+### Assets
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+All images of cocktails & ingredients sourced from CocktailDB.
+Wave .png generated from [getwaves.io](https://getwaves.io/).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Screenshots
+
+Landing screen/Homepage:
+![Image of landing screen](./screenshots/flutter_01.png)
+
+View randomly generated cocktail (view_cocktail) **(note the cocktail picture does not display properly in screenshot)**:
+![Image of random cocktail screen](./screenshots/flutter_02.png)
+
+View more information for generated cocktail (view_recipe):
+![Image of recipe screen](./screenshots/flutter_03.png)
+
+
+Designed & developed by Mushfikur Rahman.
